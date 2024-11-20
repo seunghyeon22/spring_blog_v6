@@ -1,13 +1,15 @@
 package com.example.blog.board;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
-
+@AllArgsConstructor
 @Table(name = "board_tb") // 언더스코어
 @Entity
 @Getter
@@ -15,10 +17,11 @@ import java.sql.Timestamp;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @NotNull
     private String title;
     @NotNull
     private String content;
+    @CreationTimestamp
     private Timestamp createdAt;
 }

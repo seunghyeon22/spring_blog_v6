@@ -48,11 +48,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save(BoardRequest.SaveDTO saveDTO) { // x-www는 클래스로 받을 수 있다. json으로 받고 싶으면 @RequestBody를 사용
-        System.out.println(saveDTO); // @Data는 내부에 toString를 재정의해서 구현
+    public String saveV2(BoardRequest.SaveDTO saveDTO) {
         boardService.게시글쓰기(saveDTO);
-
-        return "redirect:/"; // 302코드를 줘야함 redirect
+        return "redirect:/";
     }
 
     @PostMapping("/board/{id}/delete")

@@ -28,12 +28,10 @@ public class BoartRepository {
       //  return em.find(Board.class, id);
     }
 
-    public void save(String title, String content) {
-        Query q = em.createNativeQuery("insert into board_tb(title, content, created_at) values(?, ?, now())");
-        q.setParameter(1, title);
-        q.setParameter(2, content);
-        q.executeUpdate();
+    public void save(Board board) {
+        em.persist(board); // 객체를 던지면 insert함
     }
+
     public void delete(int id){
         Query q = em.createNativeQuery("delete from board_tb where id = ?");
         q.setParameter(1, id);

@@ -15,14 +15,10 @@ public class BoardService {
     private final BoartRepository boardRepository;
 
     public List<BoardResponse.DTO> 게시글목록보기(){
-        List<Board> boardList = boardRepository.findAll();
-        List<BoardResponse.DTO> boardDtoList = new ArrayList<>();
 
-        for(Board board : boardList){
-            BoardResponse.DTO boardDto = new BoardResponse.DTO(board);
-            boardDtoList.add(boardDto);
-        }
-        return boardDtoList;
+        return boardRepository.findAll().stream()
+                .map(BoardResponse.DTO::new)
+                .toList();
     };
     public BoardResponse.updateFormDTO 게시글수정화면보기(int id) {
         Board board = boardRepository.findById(id);
@@ -36,14 +32,15 @@ public class BoardService {
 
     @Transactional
     public void 게시글쓰기(BoardRequest.SaveDTO saveDTO) {
-        boardRepository.save(saveDTO.getTitle(),saveDTO.getContent());
-    } // commit
+        boardRepository.save(saveDTO.toEntity());
+    }
 
     @Transactional
     public void 게시글삭제(int id) {
         boardRepository.delete(id);
     }
 
+    @Transactional
     public void 게시글수정(int id, BoardRequest.updateDTO updateDTO) {
         boardRepository.update(id, updateDTO.getTitle(),updateDTO.getContent());
     }
