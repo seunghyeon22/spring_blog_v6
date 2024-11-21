@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 // Repository 책임 : DB 상호작용
 @Repository
@@ -16,33 +17,21 @@ public class BoartRepository {
     private final EntityManager em;
 
     public List<Board> findAll() {
-        Query q = em.createNativeQuery("select * from board_tb order by id desc", Board.class);
-        List<Board> list = q.getResultList();
-        return list;
+       return em.createQuery("select b from Board b order by b.id desc",Board.class).getResultList();
     }
     // 다운캐스팅의 조건 : 메모리에 올려져 있어야함
-    public Board findById(int id) {
-        Query q = em.createNativeQuery("select * from board_tb where id = ?", Board.class);
-        q.setParameter(1, id);// 물음표 완성하기(물음표 순서, 물음펴에 바인딩될 변수)
-        return (Board)q.getSingleResult();
-      //  return em.find(Board.class, id);
+    public Optional<Board> findById(int id) {
+        return Optional.ofNullable(em.find(Board.class, id));
+
     }
 
     public void save(Board board) {
+        // 비영속
         em.persist(board); // 객체를 던지면 insert함
+        // 동기화(영속화)
     }
 
     public void delete(int id){
-        Query q = em.createNativeQuery("delete from board_tb where id = ?");
-        q.setParameter(1, id);
-        q.executeUpdate(); // insert, update, delete때 사용
-    }
-
-    public void update(int id, String title, String content) {
-        Query q = em.createNativeQuery("update board_tb set title = ?, content = ? where id = ?");
-        q.setParameter(1, title);
-        q.setParameter(2, content);
-        q.setParameter(3, id);
-        q.executeUpdate();
+        em.createQuery("delete from Board b where b.id=:id").setParameter("id", id).executeUpdate();
     }
 }

@@ -7,7 +7,7 @@
         <form method="POST" action="/board/{{model.id}}/update">
             <input type="text" name = "title" placeholder = "제목" value="{{model.title}}"/><br>
             <input type="text" name = "content" placeholder = "내용" value="{{model.content}}"/><br>
-            <input type="text" name = "content" placeholder = "내용" value="{{model.createdAt}}"/><br>
+            <input type="text" name = "createAt" placeholder = "작성일" value="{{model.createdAt}}"/><br>
             <button type="submit">수정하기</button>
         </form>
     </article>

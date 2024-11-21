@@ -34,14 +34,13 @@ public class BoardRepositoryTest {
     }
     @Test
     public void saveTest(){
-        String tiitle = "제목6";
-        String contnet =  "내용6";
-        boartRepository.save(tiitle,contnet);
+        Board boards = new Board(null,"ddd","nddd", null);
+        boartRepository.save(boards);
 
-        Board board = boartRepository.findById(6);
-        System.out.println(board.getId());
-        System.out.println(board.getTitle());
-        System.out.println(board.getContent());
+        //Board board = boartRepository.findById(6);
+        //System.out.println(board.getId());
+        //System.out.println(board.getTitle());
+        //System.out.println(board.getContent());
     }
 
     @Test
@@ -58,9 +57,9 @@ public class BoardRepositoryTest {
         int id = 1;
         String title = "제목ㅇ";
         String content = "sodud";
-        boartRepository.update(id,title,content);
-        Board board = boartRepository.findById(id);
-        System.out.println(board.getTitle());
+//        boartRepository.update(id,title,content);
+//        Board board = boartRepository.findById(id);
+//        System.out.println(board.getTitle());
     }
 
 } // rollback(@Transactional)
