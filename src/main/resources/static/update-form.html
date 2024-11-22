@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>blog</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li>
+            <a href="/list.html">홈</a>
+        </li>
+        <li>
+            <a href="/save-form.html">글쓰기</a>
+        </li>
+    </ul>
+</nav>
+<hr>
+<section>
+    <article>
+        <form method="POST" action="http://localhost:8080/board/1/update">
+            <input type="text" name = "title" placeholder = "제목" value="제목1"/><br>
+            <input type="text" name = "content" placeholder = "내용" value="내용1"/><br>
+            <input type="text" name = "createAt" placeholder = "작성일" value="2024-10-10"/><br>
+            <button type="submit">수정하기</button>
+        </form>
+    </article>
+</section>
+
+</body>
+</html>

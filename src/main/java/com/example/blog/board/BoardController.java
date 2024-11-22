@@ -44,7 +44,7 @@ public class BoardController {
 
     /**
      *  쿼리스트링(where절) : /board?title=바다
-     *  패스변수(where절) :  /board/1
+     *  패스변수(where절) :  /board/1`
      */
     @GetMapping("/board/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
