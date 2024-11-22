@@ -2,39 +2,27 @@ package com.example.blog._core.error;
 
 import com.example.blog._core.error.ex.Exception400;
 import com.example.blog._core.error.ex.Exception404;
+import com.example.blog._core.util.Resp;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 // 에러 처리
-@ControllerAdvice
+@RestControllerAdvice
 public class MyControllerAdvice {
 
-    @ResponseBody
-    @ExceptionHandler(Exception400.class)
-    public String err400(Exception400 e) {
-        System.out.println("err400");
-        String body = """
-                <script>
-                alert('${msg}');
-                history.back();
-                </script>
-                """.replace("${msg}", e.getMessage());
-
-        return body;
+     @ExceptionHandler(Exception400.class)
+    public ResponseEntity<Resp<?>> err400(Exception400 e) {
+         ResponseEntity rn = new ResponseEntity(Resp.fail(e.getMessage()), HttpStatus.BAD_REQUEST);
+        return rn;
     }
 
-    @ResponseBody
     @ExceptionHandler(Exception404.class)
-    public String err404(Exception404 e) {
-        System.out.println("err404");
-        String body = """
-                <script>
-                alert('${msg}');
-                history.back();
-                </script>
-                """.replace("${msg}", e.getMessage());
-
-        return body;
+    public ResponseEntity<Resp<?>>  err404(Exception404 e) {
+         ResponseEntity rn = new ResponseEntity(Resp.fail(e.getMessage()), HttpStatus.NOT_FOUND);
+        return rn;
     }
 }

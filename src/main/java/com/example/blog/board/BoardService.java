@@ -17,14 +17,10 @@ public class BoardService {
     private final BoartRepository boardRepository;
 
     public List<BoardResponse.DTO> 게시글목록보기(){
-
         return boardRepository.findAll().stream()
                 .map(BoardResponse.DTO::new)
                 .toList();
     };
-    public BoardResponse.updateFormDTO 게시글수정화면보기(int id) {
-        return new BoardResponse.updateFormDTO(boardRepository.findById(id).orElseThrow(() ->new Exception404("해당 ID의 게시글이 없습니다. : " + id)));
-    }
 
     public BoardResponse.DetailDTO 게시글상세보기(int id) {
         return new BoardResponse.DetailDTO(boardRepository.findById(id).orElseThrow(() ->new Exception404("해당 ID의 게시글이 없습니다. : " + id)));

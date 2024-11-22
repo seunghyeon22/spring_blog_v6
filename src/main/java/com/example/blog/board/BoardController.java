@@ -2,8 +2,10 @@ package com.example.blog.board;
 
 
 import com.example.blog._core.error.ex.Exception400;
+import com.example.blog._core.util.Resp;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 // Controller의 책임 : 외부 클라이언트의 요청을 받고 그 요청에 대한 응답을 함
-@Controller
+@CrossOrigin()
+@RestController
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -24,50 +27,32 @@ public class BoardController {
     // session
     // request
 
-    @GetMapping("/")
-    public String list(Model model) { // DS(request 객체를 model이라는 객체로 랩핑해서 전달.)
+    @GetMapping("/api")
+    public Resp<?> list() {
         List<BoardResponse.DTO> boardList = boardService.게시글목록보기();
-        model.addAttribute("models", boardList);
-
-        return "list";
+        return Resp.ok(boardList);
     }
-    @GetMapping("/save-form")
-    public String saveForm() {
-        return "save-form";
-    }
-
-    @GetMapping("/board/{id}/update")
-    public String updateForm(@PathVariable Integer id, Model model) {
-        model.addAttribute("model",boardService.게시글수정화면보기(id));
-        return "update-form";
-    }
-
-    /**
-     *  쿼리스트링(where절) : /board?title=바다
-     *  패스변수(where절) :  /board/1`
-     */
-    @GetMapping("/board/{id}")
-    public String detail(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("model",boardService.게시글상세보기(id));
-        return "detail";
-    }
-
-    @PostMapping("/board/save")
-    public String saveV2(@Valid BoardRequest.SaveDTO saveDTO, Errors errors) {
-
+    @PostMapping("/api/board")
+    public Resp<?> save(@Valid @RequestBody BoardRequest.SaveDTO saveDTO, Errors errors) {
         boardService.게시글쓰기(saveDTO);
-        return "redirect:/";
+        return Resp.ok(null);
     }
 
-    @PostMapping("/board/{id}/delete")
-    public String delete(@PathVariable("id") int id) {
-        boardService.게시글삭제(id);
-        return "redirect:/";
+    @GetMapping("/api/board/{id}")
+    public Resp<?> detail(@PathVariable("id") int id ) {
+       BoardResponse.DetailDTO boardDetail = boardService.게시글상세보기(id);
+        return Resp.ok(boardDetail);
     }
-    @PostMapping("/board/{id}/update")
-    public String update(@PathVariable("id") int id, @Valid BoardRequest.updateDTO updateDTO, Errors errors) {
+
+    @PutMapping("/api/board/{id}")
+    public Resp<?> update(@PathVariable("id") int id, @Valid @RequestBody BoardRequest.updateDTO updateDTO, Errors errors) {
         boardService.게시글수정(id,updateDTO);
-        return "redirect:/";
+        return Resp.ok(null);
     }
 
+    @DeleteMapping("/api/board/{id}")
+    public Resp<?> delete(@PathVariable("id") int id) {
+        boardService.게시글삭제(id);
+        return Resp.ok(null);
+    }
 }
