@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.aspectj.weaver.ast.Not;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.NotFound;
 
 import java.sql.Timestamp;
 
@@ -18,9 +20,7 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull
     private String title;
-    @NotNull
     private String content;
     @CreationTimestamp
     private Timestamp createdAt;

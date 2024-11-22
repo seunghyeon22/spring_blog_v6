@@ -1,9 +1,14 @@
 package com.example.blog.board;
 
 
+import com.example.blog._core.error.ex.Exception400;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +37,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}/update")
-    public String updateForm(@PathVariable int id, Model model) {
+    public String updateForm(@PathVariable Integer id, Model model) {
         model.addAttribute("model",boardService.게시글수정화면보기(id));
         return "update-form";
     }
@@ -42,13 +47,14 @@ public class BoardController {
      *  패스변수(where절) :  /board/1
      */
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
+    public String detail(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("model",boardService.게시글상세보기(id));
         return "detail";
     }
 
     @PostMapping("/board/save")
-    public String saveV2(BoardRequest.SaveDTO saveDTO) {
+    public String saveV2(@Valid BoardRequest.SaveDTO saveDTO, Errors errors) {
+
         boardService.게시글쓰기(saveDTO);
         return "redirect:/";
     }
@@ -59,7 +65,7 @@ public class BoardController {
         return "redirect:/";
     }
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable("id") int id, BoardRequest.updateDTO updateDTO) {
+    public String update(@PathVariable("id") int id, @Valid BoardRequest.updateDTO updateDTO, Errors errors) {
         boardService.게시글수정(id,updateDTO);
         return "redirect:/";
     }

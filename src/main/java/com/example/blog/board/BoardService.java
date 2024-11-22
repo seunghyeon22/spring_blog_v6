@@ -1,5 +1,6 @@
 package com.example.blog.board;
 
+import com.example.blog._core.error.ex.Exception404;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +23,11 @@ public class BoardService {
                 .toList();
     };
     public BoardResponse.updateFormDTO 게시글수정화면보기(int id) {
-        return new BoardResponse.updateFormDTO(boardRepository.findById(id).orElseThrow(() ->new RuntimeException("해당 ID의 게시글이 없습니다." + id)));
+        return new BoardResponse.updateFormDTO(boardRepository.findById(id).orElseThrow(() ->new Exception404("해당 ID의 게시글이 없습니다. : " + id)));
     }
 
     public BoardResponse.DetailDTO 게시글상세보기(int id) {
-        return new BoardResponse.DetailDTO(boardRepository.findById(id).orElseThrow(() ->new RuntimeException("해당 ID의 게시글이 없습니다." + id)));
+        return new BoardResponse.DetailDTO(boardRepository.findById(id).orElseThrow(() ->new Exception404("해당 ID의 게시글이 없습니다. : " + id)));
     }
 
     @Transactional
@@ -41,7 +42,7 @@ public class BoardService {
 
     @Transactional
     public void 게시글수정(int id, BoardRequest.updateDTO updateDTO) {
-        Board board =boardRepository.findById(id).orElseThrow(() ->new RuntimeException("해당 ID의 게시글이 없습니다." + id));
+        Board board =boardRepository.findById(id).orElseThrow(() ->new Exception404("해당 ID의 게시글이 없습니다." + id));
         board.update(updateDTO.getTitle(), updateDTO.getContent());
     } // 영속화된 객체 상태 변화 - update+commit => 더티체킹
 }
