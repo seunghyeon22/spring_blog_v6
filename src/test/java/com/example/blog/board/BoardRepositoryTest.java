@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
+import java.util.Optional;
 
 @Import(BoartRepository.class)
 @DataJpaTest // DB에 관련된 자원들을 메모리(Ioc)에 올린다.
@@ -13,6 +14,38 @@ public class BoardRepositoryTest {
 
     @Autowired
     private BoartRepository boartRepository;
+
+
+
+//    @Test
+//    public void findByIdJoinUser_Test(){
+//        int id =1;
+//       Board board = boartRepository.findByIdJoinUser(id);
+//        System.out.println(board);
+//    }
+    @Test
+    public void findByIdJoinUserAndReply_test(){
+    //given
+        Integer id = 1;
+
+    //when
+        Optional<Board> boardOP = boartRepository.findByIdJoinUserAndReply(id);
+    //eye
+    }
+
+    @Test
+    public void findById_test(){
+        //given
+        Integer id = 1;
+
+        //when
+        Optional<Board> boardOP = boartRepository.findById(id);
+        Board board = boardOP.get();
+
+        //eye
+    }
+
+
 
     @Test
     public void findAll_test(){
@@ -28,38 +61,6 @@ public class BoardRepositoryTest {
             System.out.println(board.getCreatedAt());
             System.out.println("============================");
         }
-
-        //then
-
-    }
-    @Test
-    public void saveTest(){
-        Board boards = new Board(null,"ddd","nddd", null);
-        boartRepository.save(boards);
-
-        //Board board = boartRepository.findById(6);
-        //System.out.println(board.getId());
-        //System.out.println(board.getTitle());
-        //System.out.println(board.getContent());
     }
 
-    @Test
-    public void deleteTest(){
-        int id = 1;
-
-        boartRepository.delete(id);
-        List<Board> list = boartRepository.findAll();
-        System.out.println("size : "+list.size());
-    }
-
-    @Test
-    public void updateTest(){
-        int id = 1;
-        String title = "제목ㅇ";
-        String content = "sodud";
-//        boartRepository.update(id,title,content);
-//        Board board = boartRepository.findById(id);
-//        System.out.println(board.getTitle());
-    }
-
-} // rollback(@Transactional)
+}

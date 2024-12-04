@@ -1,5 +1,6 @@
 package com.example.blog;
 
+import com.example.blog.user.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

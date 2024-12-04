@@ -1,5 +1,6 @@
 package com.example.blog.board;
 
+import com.example.blog._core.error.ex.Exception404;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,34 @@ public class BoartRepository {
 
    //JPA는 EntityManager로 DB에 접근한다.(JAVA에서 DBConnection)
     private final EntityManager em;
+
+    public  Optional<Board> findByIdJoinUserAndReply(int id){
+        String sql = """
+                select b from Board b join fetch b.user left join fetch b.replies r left join fetch r.user where b.id=:id
+                """;
+        Query query = em.createQuery(sql, Board.class);
+        query.setParameter("id", id);
+        try {
+            Board board = (Board)query.getSingleResult();
+            return Optional.ofNullable(board);
+        }catch (RuntimeException e) {
+            return Optional.ofNullable(null);
+        }
+    }
+
+    public  Optional<Board> findByIdJoinUser(int id){
+        String sql = """
+                select b from Board b join fetch b.user where b.id=:id
+                """;
+        Query query = em.createQuery(sql, Board.class);
+        query.setParameter("id", id);
+        try {
+           Board board = (Board)query.getSingleResult();
+            return Optional.ofNullable(board);
+        }catch (RuntimeException e) {
+            return Optional.ofNullable(null);
+        }
+    }
 
     public List<Board> findAll() {
        return em.createQuery("select b from Board b order by b.id desc",Board.class).getResultList();

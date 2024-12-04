@@ -1,6 +1,7 @@
 package com.example.blog._core.error;
 
 import com.example.blog._core.error.ex.Exception400;
+import com.example.blog._core.error.ex.Exception401;
 import com.example.blog._core.error.ex.Exception404;
 import com.example.blog._core.util.Resp;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,13 @@ public class MyControllerAdvice {
     }
 
     @ExceptionHandler(Exception404.class)
-    public ResponseEntity<Resp<?>>  err404(Exception404 e) {
+    public ResponseEntity<Resp<?>> err404(Exception404 e) {
          ResponseEntity rn = new ResponseEntity(Resp.fail(e.getMessage()), HttpStatus.NOT_FOUND);
+        return rn;
+    }
+    @ExceptionHandler(Exception401.class)
+    public ResponseEntity<Resp<?>>  err401(Exception401 e) {
+        ResponseEntity rn = new ResponseEntity(Resp.fail(e.getMessage()), HttpStatus.NOT_FOUND);
         return rn;
     }
 }
